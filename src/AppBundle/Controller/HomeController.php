@@ -20,7 +20,10 @@ class HomeController extends Controller
      */
     public function indexAction()
     {
-        return new Response('HomePage');
+        $antispam = $this->get('antispam');
+        dump($antispam->isSpam('fdjkslqjfkldsqjfkldsqjfklsqjf'));die;
+
+        return $this->render('AppBundle:Home:index.html.twig');
     }
 
 }

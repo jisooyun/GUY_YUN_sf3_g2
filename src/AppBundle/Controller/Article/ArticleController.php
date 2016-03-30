@@ -21,7 +21,24 @@ class ArticleController extends Controller
      */
     public function listAction()
     {
-        return new Response('List of articles');
+        $tutorials = [
+            [
+                'id' => 2,
+                'name' => 'Symfony2'
+            ],
+            [
+                'id' => 5,
+                'name' => 'Wordpress'
+            ],
+            [
+                'id' => 9,
+                'name' => 'Laravel'
+            ],
+        ];
+
+        return $this->render('AppBundle:Article:index.html.twig', [
+            'tutorials' => $tutorials,
+        ]);
     }
 
     /**

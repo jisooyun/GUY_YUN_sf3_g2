@@ -4,24 +4,25 @@
  * Created by PhpStorm.
  * User: Jisoo
  * Date: 29/03/2016
- * Time: 18:10
+ * Time: 20:09
  */
 
-namespace AppBundle\Controller\Article;
+namespace AppBundle\Controller\Movie;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ArticleController extends Controller
+
+class MovieController extends Controller
 {
     /**
      * @Route("/list")
      */
     public function listAction()
     {
-        return new Response('List of articles');
+        return new Response('List of movies');
     }
 
     /**
@@ -32,22 +33,8 @@ class ArticleController extends Controller
         $tag = $request->query->get('tag');
 
         return new Response(
-            'Affiche moi l\'article avec l\'id: '.$id.' avec le tag'.$tag
+            'Affiche moi le film avec l\'id: '.$id.' avec le tag'.$tag
         );
-    }
-
-    /**
-     * @Route("/show/{articleName}")
-     *
-     * @param $articleName
-     *
-     * @return Response
-     */
-    public function showArticleNameaction($articleName)
-    {
-        return $this->render('AppBundle:Article:index.html.twig', [
-            'articleName' => $articleName,
-        ]);
     }
 
 }

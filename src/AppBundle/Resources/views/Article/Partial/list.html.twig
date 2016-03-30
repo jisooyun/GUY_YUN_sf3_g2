@@ -1,7 +1,9 @@
 <ul>
-    {% for membre in tutorials %}
-        <li>{{ membre.name }} avec l'id {{ membre.id }}</li>
+    {% for article in articles %}
+        <li>{{ article.id }} avec l'id {{ article.title }} <br>
+            {{ article.content }}</li>
+        <br>
     {% else %}
-        <li>Pas de tutoriel trouvé.</li>
+        <li>Pas d'article trouvé !</li>
     {% endfor %}
 </ul>

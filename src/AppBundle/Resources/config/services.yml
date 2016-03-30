@@ -5,4 +5,4 @@ services:
 
  antispam:
     class: AppBundle\Antispam\Antispam
-    arguments: ['%antispam_length%']
+    arguments: ['%antispam_length%', '@mailer']

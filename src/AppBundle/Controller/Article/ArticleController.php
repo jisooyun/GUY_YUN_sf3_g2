@@ -12,8 +12,9 @@ namespace AppBundle\Controller\Article;
 use AppBundle\Entity\Article\Tag;
 use AppBundle\Form\Type\Article\ArticleType;
 use AppBundle\Form\Type\Article\TagType;
-use AppBundle\Form\Type\Article\ArticleDel;
+use AppBundle\Form\Type\Article\ArticleUpdate;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -194,6 +195,42 @@ class ArticleController extends Controller
         $em->flush();
         return $this->redirectToRoute('article_list');
 
+    }
+
+    /**
+     * @Route("/update", name="article_update")
+     *
+     * @return Response
+     */
+    public function updateArticleAction( Request $request)
+    {
+        $id = $request->query->get('id');
+        $em = $this->getDoctrine()->getManager();
+        $news = $em->getRepository('AppBundle:Article\Article')->find($id);
+        if (!$news) {
+            throw $this->createNotFoundException(
+                'No news found for id ' . $id
+            );
+        }
+
+        $form = $this->createFormBuilder($news)
+            ->add('title')
+            ->add('content')
+            ->add('author')
+            ->add('tag')
+            ->add('save', SubmitType::class)
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em->flush();
+            return $this->redirectToRoute('article_list');
+        }
+
+        $build['form'] = $form->createView();
+
+        return $this->render('AppBundle:Article:article.update.html.twig', $build);
     }
 
 }

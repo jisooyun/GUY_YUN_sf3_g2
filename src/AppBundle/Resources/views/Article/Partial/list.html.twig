@@ -1,11 +1,17 @@
 <ul>
     {% for article in articles %}
         <li>
-            <h4>{{ article.title }} (id de l'article : {{ article.id }})</h4>
-            <a href="{{ path('article_author', { 'author': article.author}) }}">{{ article.author }}</a>
+            <a href="{{ path('article_id', {'id' : article.id}) }}"><h4>{{ article.title }}</a> (id de l'article : {{ article.id }})</h4>
+            Autheur : <a href="{{ path('article_author', { 'author': article.author}) }}">{{ article.author }}</a>
             <p>{{ article.content }}
                 <br>
                 {{ article.createdAt|date('d/m/Y H:i') }}
+                <br>
+                {% if (article.tag) %}
+                <a href="{{ path('article_tag', {'tag': article.tag}) }}">{{ article.tag }}</a>
+                {% endif %}
+
+                <a href="{{ path('article_del', {'id': article.id}) }}">Supprimer</a>
             </p>
         </li>
         <br>

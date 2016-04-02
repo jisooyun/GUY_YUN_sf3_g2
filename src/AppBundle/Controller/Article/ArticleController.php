@@ -10,7 +10,9 @@
 namespace AppBundle\Controller\Article;
 
 use AppBundle\Entity\Article\Tag;
+use AppBundle\Form\Type\Article\ArticleType;
 use AppBundle\Form\Type\Article\TagType;
+use AppBundle\Form\Type\Article\ArticleDel;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,15 +36,46 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Route("/show/{id}", requirements={"id" = "\d+"})
+     * @Route("/list?", name="article_tag")
+     *
+     * @return Response
      */
-    public function showAction($id, Request $request)
+    public function showArticleTag(Request $request)
     {
         $tag = $request->query->get('tag');
 
-        return new Response(
-            'Affiche moi l\'article avec l\'id: '.$id.' avec le tag'.$tag
-        );
+        $em = $this->getDoctrine()->getManager();
+        $tagRepository = $em->getRepository('AppBundle:Article\Article');
+
+        $articles = $tagRepository->findBy([
+            'tag' => $tag,
+        ]);
+
+        return $this->render('AppBundle:Article:index.html.twig', [
+            'articles' => $articles,
+        ]);
+    }
+
+
+    /**
+     * @Route("/show/{id}", requirements={"id" = "\d+"}, name="article_id")
+     *
+     * @return Response
+     */
+    public function showAction($id)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $idRepository = $em->getRepository('AppBundle:Article\Article');
+
+        $articles = $idRepository->findBy([
+            'id' => $id,
+        ]);
+
+        return $this->render('AppBundle:Article:index.html.twig', [
+            'articles' => $articles,
+        ]);
+
     }
 
     /**
@@ -115,13 +148,52 @@ class ArticleController extends Controller
     }
     
     /**
-     * @Route("/new")
-     * 
-     * @param Request $request
+     * @Route("/new", name="article_new")
      */
-    public function newArticleAction()
+    public function newArticleAction(Request $request)
     {
-        
+        $form = $this->createForm(ArticleType::class);
+
+        $form->handleRequest($request);
+
+
+        if ($form->isValid()) {
+            //pour enregistrer les données rentrées dans le formulaire
+            $em = $this->getDoctrine()->getManager();
+
+            $article = $form->getData();
+
+            // class StringUtil
+            $em->persist($article);
+            $em->flush();
+
+            return $this->redirectToRoute('article_list');
+        }
+
+        return $this->render('AppBundle:Article:article.new.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/del", name="article_del")
+     *
+     * @return Response
+     */
+    public function delArticleAction(Request $request)
+    {
+        $id = $request->query->get('id');
+        $em = $this->getDoctrine()->getManager();
+        $articleDel = $em->getRepository('AppBundle:Article\Article');
+
+        $articles = $articleDel->findOneBy([
+            'id' => $id,
+        ]);
+
+        $em->remove($articles);
+        $em->flush();
+        return $this->redirectToRoute('article_list');
+
     }
 
 }

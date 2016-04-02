@@ -9,8 +9,12 @@
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 
-        <a href="{{ path('article_list') }}">List</a>
-        <a href="{{ path('article_new') }}">New</a>
+        <nav class="navbar navbar-default">
+            <ul class="nav navbar-nav navbar-left">
+                <li><a href="{{ path('article_list') }}">Liste des articles</a></li>
+                <li><a href="{{ path('article_new') }}">Créer un article</a></li>
+            </ul>
+        </nav>
     </head>
     <body>
         {% block body %}{% endblock %}

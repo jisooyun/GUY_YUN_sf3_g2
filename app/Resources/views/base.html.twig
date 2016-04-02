@@ -7,6 +7,9 @@
             <link rel="stylesheet" href="{{ asset("bundles/app/css/home.css") }}">
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+        <a href="{{ path('article_list') }}">List</a>
+        <a href="{{ path('article_new') }}">New</a>
     </head>
     <body>
         {% block body %}{% endblock %}

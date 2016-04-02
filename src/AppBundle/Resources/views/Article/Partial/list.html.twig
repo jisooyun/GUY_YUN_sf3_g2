@@ -1,7 +1,13 @@
 <ul>
     {% for article in articles %}
-        <li>{{ article.id }} avec l'id {{ article.title }} <br>
-            {{ article.content }}</li>
+        <li>
+            <h4>{{ article.title }} (id de l'article : {{ article.id }})</h4>
+            <a href="{{ path('article_author', { 'author': article.author}) }}">{{ article.author }}</a>
+            <p>{{ article.content }}
+                <br>
+                {{ article.createdAt|date('d/m/Y H:i') }}
+            </p>
+        </li>
         <br>
     {% else %}
         <li>Pas d'article trouvé !</li>

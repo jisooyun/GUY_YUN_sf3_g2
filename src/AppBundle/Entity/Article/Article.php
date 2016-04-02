@@ -64,7 +64,7 @@ class Article
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updatedAt", type="datetimetz", nullable=true)
+     * @ORM\Column(name="updatedAt", type="datetime", nullable=true)
      */
     private $updatedAt;
 
